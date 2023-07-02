@@ -5,6 +5,7 @@ import ScanQRCode from '../Options/ScanQRCode';
 import ScanBarcode from '../Options/ScanBarcode';
 
 import EnterCode from "../Options/EnterCode"
+import Manual from '../Options/Manual';
 
 function Dashboard({Nbur},{ onData }) { 
     const [selectedOption, setSelectedOption] = useState('');
@@ -18,12 +19,14 @@ function Dashboard({Nbur},{ onData }) {
       <div className='Dashboard'>
        
       <main>
-      <h4>Inventorier un Article</h4>
+      <h4>Ajouter un Article</h4>
       <select value={selectedOption} onChange={handleOptionChange} >
       <option value="" disabled>Ajouter avec</option>
         <option value="qrCode">Code QR</option>
         <option value="barCode">CodeBar</option>
         <option value="characterCode">Code</option>
+        <option value="manuel">Manuel</option>
+
 
 
       </select>
@@ -31,6 +34,7 @@ function Dashboard({Nbur},{ onData }) {
      {selectedOption === 'qrCode' && <ScanQRCode onData={onData} Nbur={Nbur}/>}
       {selectedOption === 'barCode' &&<ScanBarcode onData={onData} Nbur={Nbur}/>}
       {selectedOption === 'characterCode' &&<EnterCode onData={onData} Nbur={Nbur}/>}
+     {selectedOption === 'manuel' && <Manual onData={onData} Nbur={Nbur}/>}
 </main>
         
       </div>

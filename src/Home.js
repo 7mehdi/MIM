@@ -1,16 +1,23 @@
 import React from "react";
 
-import Bureau from "./Components/Bureau";
 import NavBar from "./Components/navBar";
+import Bureau from "./Components/Bureau";
 import "./style/Home.css";
-
+import GestionDeStock from "./Components/GestionStock";
+import Graph from "./Components/Graph";
 
 function Home() {
   
   return (
-    <div>
+    <div >
+     
       <NavBar/>
-      <Bureau />
+<div className="Main">
+       <Graph/>
+      <GestionDeStock/>
+      <Bureau/>
+
+</div>
 
     </div>
   );

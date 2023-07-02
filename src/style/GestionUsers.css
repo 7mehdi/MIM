@@ -1,0 +1,101 @@
+.main{
+  width: 80%;
+  margin: auto;
+}
+.user-management {
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+  flex-direction: row;
+  justify-content: space-between;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    align-items: center;
+  }
+  
+  .role{
+    display: flex;
+    flex-direction: row;
+    width: 10rem;
+    height: 3rem;
+    align-items: center;
+    justify-content: space-around;
+  }
+  .role button{
+    font-size: 0.6rem;
+  }
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  h3 {
+    margin-top: 30px;
+  }
+  
+  form {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .user-management input{
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px black solid;
+    border-radius: 3px;
+  }
+  
+  button {
+    padding: 8px 16px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  th,
+  td {
+    padding: 8px;
+    border: 1px solid #ccc;
+    height: 3rem;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  button {
+    margin-right: 5px;
+  }
+  
+  .modify-role {
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f2f2f2;
+  }
+  
+  .modify-role label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .modify-role input[type="text"] {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+  

@@ -1,12 +1,11 @@
 const express = require('express');
+const port = 8000;
 const cors = require('cors');
 const jwt = require('jsonwebtoken'); // Import jsonwebtoken package
 const app = express();
 const { createPool } = require('mysql');
 const bodyParser = require('body-parser');
-
-const validator = require('validator');
-const { body, validationResult } = require('express-validator');
+const { body, validationResult } = require("express-validator");
 const officeItems = {
   201: 'Ordinateur', // Computer
   101: 'Bureau', // Desk
@@ -41,46 +40,26 @@ const pool = createPool({
   database: 'projet_stage',
 });
 
-app.get('/api/articles', (req, res) => {
-  const bureau = req.query.Nbur;
 
-  const query = `
-    SELECT code_barre
-    FROM article
-    WHERE article.bureau = ?
-  `;
-
-  pool.query(query, [bureau], (err, rows) => {
-    if (err) {
-      console.error(err);
-      res.status(500).json({ error: 'An error occurred' });
-      return;
-    }
-
-    // Extract the code_barre value
-    const codeBarres = rows.map((row) => row.code_barre);
-    const processedItems = codeBarres.map((item) => processData(item));
-
-    res.json(processedItems);
-  });
-});
-
-const processData = (data) => {
+const processData = (data, description) => {
   const [Article, articleNumber] = data.split('-');
-
+  descr= description.map((item)=>item)
   const decodedArticle = {
     Article: officeItems[parseInt(Article)],
     articleNumber: parseInt(articleNumber),
   };
-  return decodedArticle;
+  console.log(decodedArticle, descr)
+  return {decodedArticle,descr};
 };
+
+
 
 const confirmValidationRules = [
   body('scannedCode')
     .notEmpty()
     .withMessage('Scanned code is required')
-    .isLength({ min: 1, max: 100 })
-    .withMessage('Scanned code must be between 1 and 100 characters long'),
+    .isLength({ min: 5, max: 7 })
+    .withMessage('Scanned code must be between 5 and 7 characters long'),
   body('Nbur')
     .notEmpty()
     .withMessage('Nbur is required')
@@ -104,13 +83,16 @@ const loginValidationRules = [
 
 app.post('/api/confirm', confirmValidationRules, (req, res) => {
   const errors = validationResult(req);
+  const token = req.headers.authorization;
+  const decodedToken = jwt.verify(token, "212711");
+  const userId = decodedToken.id;
+
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  console.log('POST /api/confirm route handler triggered');
   console.log(req.body);
-  const { scannedCode, Nbur } = req.body;
+  const { scannedCode, Nbur, description } = req.body;
 
   // Check if the article already exists in the database
   const checkQuery = 'SELECT * FROM article WHERE code_barre = ?';
@@ -131,7 +113,11 @@ app.post('/api/confirm', confirmValidationRules, (req, res) => {
     const articleData = {
       code_barre: scannedCode,
       bureau: Nbur,
-      description: generateRandomDescription(),
+      description: description,
+    };
+    const [Article, articleNumber] = scannedCode.split('-');
+    const decodedArticle = {
+      Article: officeItems[parseInt(Article)],
     };
 
     pool.query('INSERT INTO article SET ?', articleData, (articleErr, articleResult) => {
@@ -140,14 +126,22 @@ app.post('/api/confirm', confirmValidationRules, (req, res) => {
         res.status(500).json({ success: false, message: 'An error occurred while adding the article' });
         return;
       }
-
+      pool.query('UPDATE stock SET real_count = real_count + 1 WHERE item_category = ?', [decodedArticle.Article], (err, result) => {
+        if (err) {
+          console.error(err);
+          res.status(500).json({ success: false, message: 'An error occurred while adding the article' });
+          return;
+        }
+        
+      });
+      
       // Get the ID of the inserted article
       const articleId = articleResult.insertId;
 
       // Insert confirmation data into the confirmation table
       const confirmationData = {
         article_id: articleId,
-        user_id: getRandomUser(),
+        user_id: userId,
       };
 
       pool.query('INSERT INTO confirmation SET ?', confirmationData, (confirmErr, confirmResult) => {
@@ -165,6 +159,7 @@ app.post('/api/confirm', confirmValidationRules, (req, res) => {
 
 app.post('/api/login', loginValidationRules, (req, res) => {
   const errors = validationResult(req);
+  console.log(validationResult(req))
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
@@ -192,30 +187,6 @@ app.post('/api/login', loginValidationRules, (req, res) => {
   });
 });
 
-function generateRandomDescription() {
-  const descriptions = [
-    'Lorem ipsum dolor sit amet',
-    'Consectetur adipiscing elit',
-    'Sed do eiusmod tempor incididunt',
-    'Ut labore et dolore magna aliqua',
-    'Enim ad minim veniam',
-    'Quis nostrud exercitation ullamco',
-    'Laboris nisi ut aliquip ex ea commodo consequat',
-    'Duis aute irure dolor in reprehenderit',
-    'Voluptate velit esse cillum dolore',
-    'Excepteur sint occaecat cupidatat non proident',
-  ];
-
-  const randomIndex = Math.floor(Math.random() * descriptions.length);
-  return descriptions[randomIndex];
-}
-
-function getRandomUser() {
-  return Math.floor(Math.random() * 3) + 1;
-}
-
-
-
 
 
 app.get('/api/check-session', (req, res) => {
@@ -236,9 +207,6 @@ app.get('/api/check-session', (req, res) => {
     res.json({ isLoggedIn: false });
   }
 });
-
-
-
 
 // Endpoint to retrieve user details
 app.get("/api/user-details", async (req, res) => {
@@ -270,16 +238,13 @@ app.get("/api/user-details", async (req, res) => {
 async function getUserDetails(userId) {
   return new Promise((resolve, reject) => {
     const query = 'SELECT name, role FROM users WHERE id = ?';
-    console.log('Executing query:', query, 'with userId:', userId);
-
+  
     pool.query(query, [userId], (err, rows) => {
       if (err) {
         console.error(err);
         reject(err);
         return;
       }
-
-      console.log('Query results:', rows[0]);
 
       if (rows.length > 0) {
         resolve(rows[0]);
@@ -291,7 +256,42 @@ async function getUserDetails(userId) {
   });
 }
 
+app.get('/api/historique', (req, res) => {
+  const token = req.headers.authorization;
+  const decodedToken = jwt.verify(token, "212711");
+    const userId = decodedToken.id;
+    console.log(userId)
+    const query = `
+      SELECT a.id, a.code_barre, a.description, c.confirmed_at
+      FROM article AS a
+      LEFT JOIN confirmation AS c ON a.id = c.article_id AND c.user_id = ${userId}
+      WHERE c.user_id = ${userId}
+    `;
 
-app.listen(8000, () => {
-  console.log("Server is running on port 8000");
+  try {
+    
+    // Execute the query
+    pool.query(query, (err, results) => {
+      if (err) {
+        console.error('Error executing the query: ', err);
+        res.status(500).json({ error: 'Internal server error' });
+        return;
+      }
+      const codeBarres = results.map((row) => row.code_barre);
+      const description =results.map((row)=>row.description)
+      const processedItems = codeBarres.map((item) => processData(item,description.map((item)=>item)));
+
+      console.log(results);
+      // Send the retrieved data as the API response
+      res.status(200).json({ proccessedItems: processedItems, results: results });
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(401).json({ message: "Invalid token" });
+  }
+});
+
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });

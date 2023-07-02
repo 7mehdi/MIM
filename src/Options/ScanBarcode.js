@@ -49,7 +49,7 @@ function ScanBarcode({Nbur},{ onData } ) {
       <h1>Barcode Scanner</h1>
       <video ref={videoRef} style={{ width: '15rem', height: 'auto' }} />
       {scannedBarcode && <p>Scanned Barcode: {scannedBarcode}</p>}
-      { scannedBarcode &&<FindArt onData={onData} Nbur={Nbur} scannedCode={scannedBarcode} />}
+      { scannedBarcode &&<FindArt Nbur={Nbur} scannedCode={scannedBarcode} />}
     </div>
   );
 }

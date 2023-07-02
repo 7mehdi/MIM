@@ -16,6 +16,7 @@ function Login() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     })
+    
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
@@ -31,7 +32,6 @@ function Login() {
         setLoginStatus("Une erreur s'est produite lors de la connexion");
       });
   };
-
   return (
     <div className="App">
       <nav>

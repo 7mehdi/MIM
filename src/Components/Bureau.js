@@ -3,7 +3,7 @@ import Dashboard from "./Dashboard";
 import "../style/App.css";
 import Table from "./Table";
 
-function Bureau() {
+function Bureau({refresh}) {
 const[bur, setBur]=useState("");
 const handleBurChange = (event) => {
     const inputBur = event.target.value;
@@ -13,8 +13,6 @@ const handleBurChange = (event) => {
   const [btnClicked, setBtnClicked] = useState(false);
   const [submittedCode, setSubmittedCode] = useState('');
   const handleBtnClick = () => {
-   
-
     setSubmittedCode(bur);
     setBtnClicked(true);
   };
@@ -23,11 +21,14 @@ const handleBurChange = (event) => {
     <div className="Bureau">
 <section className="ScanOffice">
   <h4>Bureau:</h4>
-  <input type="number" value={bur} onChange={handleBurChange} />
-  <button onClick={handleBtnClick}>Confirmer</button>
+  <input type="number" className="BureauInput" value={bur} onChange={handleBurChange} />
+  <button className="Confirmbutton" onClick={handleBtnClick}>&#x2713;</button>
 </section>
+<section className="afficherData">
+{btnClicked && submittedCode &&<Table  Nbur={submittedCode}/>}
 {btnClicked && submittedCode && <Dashboard  Nbur={submittedCode}/>}
-{btnClicked && submittedCode &&<Table Nbur={submittedCode}/>}
+
+</section>
 </div>
      );
 }

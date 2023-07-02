@@ -7,6 +7,8 @@ function FindArt({ scannedCode, Nbur }) {
   const [error, setError] = useState('');
   const [invalidCode, setInvalidCode] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
+  const [description, setDescription] = useState('');
+
 
   useEffect(() => {
     decodeArticleCode(scannedCode);
@@ -29,7 +31,7 @@ function FindArt({ scannedCode, Nbur }) {
       setInvalidCode(hasLetters);
 
       if (invalidCode) {
-        setError('Code invalide');
+        setError('Code invalid');
       } else if (!officeItems[Article]) {
         setError('Article non trouvé');
       } else {
@@ -46,11 +48,16 @@ function FindArt({ scannedCode, Nbur }) {
     const confirmationData = {
       scannedCode,
       Nbur: parseInt(Nbur),
+      description: description,
     };
 
 console.log(confirmationData)
     axios
-      .post('http://localhost:8000/api/confirm', confirmationData)
+      .post('http://localhost:8000/api/confirm', confirmationData,{
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
       .then((response) => {
         const { success, message } = response.data;
         if (success) {
@@ -87,9 +94,15 @@ console.log(confirmationData)
           <p>Article: {officeItems[article]}</p>
           <p>Numero d'article: {artNum}</p>
           <p>Bureau: {Nbur}</p>
-          {!confirmed ? (
+          {!confirmed ? (<>
+            <textarea
+            className="descriptionInput"
+            placeholder="Enter description..."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
             <button onClick={handleConfirmation}>Ajouter article</button>
-          ) : (
+          </>) : (
             <p>
               {officeItems[article]} nº{artNum} ajouté
             </p>

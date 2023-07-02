@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios"
 import { Link } from "react-router-dom";
 import logo from "../Mobilis Inventory Manager.png";
-import userImg from "../image.webp";
+import userImg from "../image.png";
 
 function NavBar() {
   
@@ -51,25 +51,6 @@ const GoHome =()=>{
       <div className="navbar-brand">
         <img className="logo" src={logo} onClick={GoHome} alt="" />
       </div>
-      <div className="navbar-menu">
-        <ul className="navbar-nav">
-          <li className="nav-item">
-            <Link to="/" className="nav-link">
-              Accueil
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/historique" className="nav-link">
-              Historique
-            </Link>
-          </li>
-          <li className="nav-item">
-            <button className="nav-link" onClick={openLogoutModal}>
-              Se déconnecter
-            </button>
-          </li>
-        </ul>
-      </div>
       <div className="navbar-account">
         <div className="account-section">
           <img className="account-img" src={userImg} alt="" />
@@ -87,11 +68,19 @@ const GoHome =()=>{
       Gestion d'utilisateur
     </Link>
   </li>
+     
 )}
-              <li className="dropdown-item">
-                <button className="dropdown-link" onClick={openLogoutModal}>
+
+<li className="dropdown-item">
+     <Link to="/Home" className="dropdown-link">
+       Gestion De Stock
+     </Link>
+   </li>
+           
+  <li className="dropdown-item Se-deconnecter"onClick={openLogoutModal}>
+                
                   Se déconnecter
-                </button>
+
               </li>
             </ul>
           </div>

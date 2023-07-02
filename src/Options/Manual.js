@@ -1,20 +1,12 @@
 import React, { useState} from 'react';
-import "../style/Fom.css"
-function Manual({ onFormSubmit }) {
-  const [floor, setFloor] = useState('');
-  const [office, setOffice] = useState('');
+import QRCode from 'qrcode.react';
+import FindArt from './findArticle';
+function Manual({ Nbur}) {
+const [item, setItem] = useState('');
   const [articleNumber, setArticleNumber] = useState('');
   const [category, setCategory] = useState('');
 const [btn,setBtn]= useState(false)
   
-  const handleFloorChange = (event) => {
-    setFloor(event.target.value);
-  };
-
-  const handleOfficeChange = (event) => {
-    setOffice(event.target.value);
-  };
-
   const handleArticleNumberChange = (event) => {
     setArticleNumber(event.target.value);
   };
@@ -29,19 +21,16 @@ const [btn,setBtn]= useState(false)
 
 
   function generateCode() {
-
-    return `${floor.toString().padStart(3, '0')}-${office.toString().padStart(3, '0')}-${category}-${articleNumber.toString().padStart(3, '0')}`;
+    return `${category}-${articleNumber}`.toString();
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const itemDetails = {
-      floor,
-      office,
       articleNumber,
       category,
     };
-    onFormSubmit(itemDetails);
+    setItem(itemDetails)
   };
 
 
@@ -52,17 +41,7 @@ const [btn,setBtn]= useState(false)
       
       <h2>Formulaire de l'article</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-        <label>
-          Étage:
-          <input type="number" value={floor} onChange={handleFloorChange} />
-        </label>
-        </div>
-        <div>
-        <label>
-          Bureau:
-          <input type="text" value={office} onChange={handleOfficeChange} />
-        </label> </div>  
+   
         <div>  <label>
           Catégorie:
           <select value={category} onChange={handleCategoryChange}>
@@ -88,10 +67,13 @@ const [btn,setBtn]= useState(false)
       </form>
 
 
-      {floor && office && articleNumber && category && btn &&(
+      {articleNumber && category && btn &&(
         <div>
           <h3>Code d'article:</h3>
           <p>{generateCode()}</p>
+          <h3>Code QR:</h3>
+          <QRCode value={generateCode()} />
+          {item && <FindArt scannedCode={generateCode()} Nbur={Nbur}/>}
         </div>
       )}
        

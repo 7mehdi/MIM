@@ -8,6 +8,8 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
     "body-parser": "^1.20.2",
+    "chart.js": "^4.3.0",
+    "concurrently": "^8.2.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
@@ -16,9 +18,13 @@
     "jsonwebtoken": "^9.0.0",
     "mysql": "^2.18.1",
     "node": "^20.2.0",
+    "node-cron": "^3.0.2",
+    "nodemailer": "^6.9.3",
+    "qrcode.react": "^3.1.0",
     "quagga": "^0.12.1",
     "react": "^18.2.0",
     "react-barcode-reader": "^0.0.2",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-qr-scanner": "^1.0.0-alpha.11",
     "react-scripts": "5.0.1",
@@ -27,7 +33,8 @@
     "webrtc-adapter": "^8.2.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently \"node ServerSide/gestion.js\" \"node ServerSide/server.js\"  \"node ServerSide/article.js\"",
+    "fire": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

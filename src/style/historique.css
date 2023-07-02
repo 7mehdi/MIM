@@ -1,0 +1,34 @@
+
+.historique {
+    width: 80%;
+    margin: auto;
+  }
+  
+  .historique h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .hisContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 2rem;
+  }
+  
+  .hisCard {
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f7f7f7;
+  }
+  
+  .hisCard p {
+    margin: 0.5rem 0;
+  }
+  
+  #timeFilter {
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    padding: 5px 10px;
+  }
+  
