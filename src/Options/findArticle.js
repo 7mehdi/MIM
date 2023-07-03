@@ -12,12 +12,9 @@ function FindArt({ scannedCode, Nbur }) {
 
   useEffect(() => {
     decodeArticleCode(scannedCode);
-  }, [scannedCode]);
-
-  useEffect(() => {
     setConfirmed(false);
   }, [scannedCode]);
-
+  
 
   function decodeArticleCode(scannedCode) {
     if (typeof scannedCode === 'string') {
@@ -51,7 +48,6 @@ function FindArt({ scannedCode, Nbur }) {
       description: description,
     };
 
-console.log(confirmationData)
     axios
       .post('http://localhost:8000/api/confirm', confirmationData,{
         headers: {
@@ -90,19 +86,19 @@ console.log(confirmationData)
         <p>{error}</p>
       ) : (
 
-        <><h2>Confirmer Article:</h2>
+        <>
           <p>Article: {officeItems[article]}</p>
           <p>Numero d'article: {artNum}</p>
           <p>Bureau: {Nbur}</p>
-          {!confirmed ? (<>
+          {!confirmed ? (<div className='Descrip'>
             <textarea
             className="descriptionInput"
-            placeholder="Enter description..."
+            placeholder="Description..."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
-            <button onClick={handleConfirmation}>Ajouter article</button>
-          </>) : (
+            <button onClick={handleConfirmation}>Ajouter</button>
+          </div>) : (
             <p>
               {officeItems[article]} nº{artNum} ajouté
             </p>

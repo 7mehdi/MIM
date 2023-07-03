@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Bureau from './Bureau'
 import axios from 'axios';
 
 function GestionDeStock() {
   const [items, setItems] = useState([]);
-  const [refresh, setRefresh] = useState('');
 
   // Fetch stock items from the server
   const fetchItems = async () => {
@@ -18,7 +16,6 @@ function GestionDeStock() {
   };
   const handleRefresh = () => {
     fetchItems();
-    setRefresh('refresh')
   };
 
 
@@ -32,7 +29,6 @@ function GestionDeStock() {
       <tr key={item.id}>
         <td> {item.item_category}</td>
         <td> {item.real_count}</td>
-        <td>{item.theoretical_count}</td>
       </tr>
     ));
   };
@@ -41,15 +37,16 @@ function GestionDeStock() {
     <div>    <h2>Gestion de Stock</h2> 
         
     <div className='stock'>
-      <button onClick={handleRefresh}>&#8634;</button>
 
       <table>
         
               <thead>
                 <tr>
-                  <th>Category</th>
+                  <th>Article</th>
                   <th>Quantite</th>
-                  <th>theory</th>
+                  <th>                <span className='refresh-btn' onClick={handleRefresh}>&#8634;</span>
+</th>
+
                 </tr>
               </thead>
             

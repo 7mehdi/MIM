@@ -6,26 +6,24 @@
   padding: 1rem 2rem;
 }
 
-.navbar-brand {
-  font-weight: bold;
-}
-
-.navbar-menu {
+.Menu{
   display: none;
 }
-
-.navbar-nav {
-  list-style: none;
+.Navlinks{
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
 }
-
-.nav-item {
-  margin-right: 1rem;
-}
-
-.nav-link {
+.NavLink{
   text-decoration: none;
-  color: #333;
+  margin-left: 1rem;
+}
+.link{
+  text-decoration: none;
+   color: #333;
+
 }
 
 .navbar-account {
@@ -69,10 +67,7 @@
   padding: 0.625rem; /* Equivalent to 10px */
 }
 
-.dropdown-link {
-  text-decoration: none;
-  color: #333;
-}
+
 .Se-deconnecter{
   background-color: transparent;
   color: rgb(218, 15, 15);
@@ -140,6 +135,47 @@
 .logo:hover {
   cursor: pointer;
 }
-.navbar {
-  overflow: visible;
+
+@media (max-width:850px){
+*{
+  font-size: small;
+}
+.user-management{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+ }
+}
+@media (max-width:750px){
+  .Menu{
+    display: block;
+    z-index: 1000;
+  }
+  .Navlinks{
+    display: none;
+  }
+ 
+
+}
+
+
+@media (max-width:450px){
+  *{
+    font-size: 10px;
+  }
+  nav{
+    width: 100vw;
+  }
+  .user-management{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+   }
+  .userList table{
+    width: 20rem;
+    font-size: 5px;
+    transform: translateX(5%);
+  }
 }

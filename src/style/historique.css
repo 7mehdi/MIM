@@ -11,13 +11,20 @@
   }
   
   .hisContainer {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items:center ;
+    flex-wrap: wrap;
+ 
   }
   
   .hisCard {
+    width: 10rem;
+    height: 10rem;
     border: 1px solid #ccc;
+    border-radius: 3px;
+    margin: 1rem;
     padding: 10px;
     background-color: #f7f7f7;
   }
@@ -27,6 +34,7 @@
   }
   
   #timeFilter {
+    margin-left: 1rem;
     margin-bottom: 2rem;
     font-size: 1rem;
     padding: 5px 10px;

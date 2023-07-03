@@ -1,19 +1,39 @@
 import React, { useState, useEffect } from 'react';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { fab } from '@fortawesome/free-brands-svg-icons'; // For brand icons
+import { fas } from '@fortawesome/free-solid-svg-icons'; // For solid icons
 import axios from 'axios';
 import Item from './Item';
+
+library.add(fab, fas);
 
 function Table({ Nbur }) {
   const [Data, setData] = useState([]);
   const [editedDescription, setEditedDescription] = useState('');
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [itemId, setItemId] = useState('');
 
+  const open = (articleId) => {
+    setShowLogoutModal(true);
+    setItemId(articleId);
+  };
+
+  const onClose = () => {
+    setShowLogoutModal(false);
+  };
   const fetchData = async () => {
     try {
+      setIsRefreshing(true);
       const response = await axios.get(`http://localhost:8080/api/articles?Nbur=${Nbur}`);
       const data = response.data;
       setData(data);
       console.log(data);
+      setIsRefreshing(false);
     } catch (error) {
       console.log('Error:', error);
+      setIsRefreshing(false);
     }
   };
 
@@ -60,13 +80,15 @@ function Table({ Nbur }) {
                   type="text"
                   value={editedDescription}
                   onChange={handleDescriptionChange}
-                  placeholder={article.descr[index]}
+                  placeholder={article.descr[index] }
                 />
+
               </td>
-              <td>
-                <button onClick={() => handleDescriptionSubmit(article.ArticleId[index])}>Save</button>
-                <button  onClick={() => open(article.ArticleId[index])}>Details</button>
-                <button onClick={() => deleteItem(article.ArticleId[index])}>Delete</button>
+              <td>         
+                <button className='Save' onClick={() => handleDescriptionSubmit(article.ArticleId[index])}>Save</button>
+
+                <span className='Details' onClick={() => open(article.ArticleId[index])}>&#9432;</span>
+                <FontAwesomeIcon className="Delete" onClick={() => deleteItem(article.ArticleId[index])}  icon={['fas', 'trash-alt']} />
               </td>
             </tr>
           ))
@@ -81,26 +103,13 @@ function Table({ Nbur }) {
     fetchData();
   }, [Nbur]);
 
-  const handleRefresh = () => {
-    fetchData();
-  };
-
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const [itemId, setitemId]=useState('')
+ 
 
 
-  const open = (articleId) => {
-    setShowLogoutModal(true);
-    setitemId(articleId)
-  };
-
-  const onClose = () => {
-    setShowLogoutModal(false);
-  };
+ 
 
   return (
-    <div>
-      <button onClick={handleRefresh}>&#8634;</button>
+    <div className='Table'>
       <table>
         <thead>
           <tr>
@@ -109,10 +118,9 @@ function Table({ Nbur }) {
             <th>Action</th>
           </tr>
         </thead>
-        <tbody>{renderItems()}</tbody>
+        <tbody className={`content ${isRefreshing ? '' : 'fade-in'}`}>{renderItems()}</tbody>
       </table>
-      {showLogoutModal && <Item onClose={onClose} itemId ={itemId}/>}
-
+      {showLogoutModal && <Item onClose={onClose} itemId={itemId} />}
     </div>
   );
 }

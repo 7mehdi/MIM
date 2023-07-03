@@ -61,10 +61,19 @@ const createUserValidationRules = [
     });
   });
   
-  // Delete a user
   app.delete("/api1/users/:userId", (req, res) => {
     const userId = req.params.userId;
+    const newUserId = 4;
   
+    pool.query("UPDATE confirmation SET user_id = ? WHERE user_id = ?", [newUserId, userId], (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).json({ error: "An error occurred during confirmation table update" });
+        return;
+      }
+
+      res.json({ message: "User deleted successfully" });
+    });
     pool.query("DELETE FROM users WHERE id = ?", [userId], (err, result) => {
       if (err) {
         console.error(err);
@@ -77,9 +86,10 @@ const createUserValidationRules = [
         return;
       }
   
-      res.json({ message: "User deleted successfully" });
+ 
     });
   });
+  
   
   // Modify the role of a user
   app.put("/api1/users/:userId", modifyRoleValidationRules, (req, res) => {

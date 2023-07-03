@@ -1,18 +1,4 @@
-.main{
-  width: 80%;
-  margin: auto;
-}
-.user-management {
-  display: flex;
-  flex-wrap: wrap;
-  margin: auto;
-  flex-direction: row;
-  justify-content: space-between;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    align-items: center;
-  }
+
   
   .role{
     display: flex;

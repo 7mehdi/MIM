@@ -1,10 +1,13 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import QrScanner from 'react-qr-scanner';
 import FindArt from './findArticle';
 
 function ScanQRCode({ Nbur, onData }) {
   const [scannedData, setScannedData] = useState('');
-  const scannerRef = useRef(null);
+
+  const handleReset = () => {
+    setScannedData('');
+  };
 
   const handleScan = (data) => {
     if (data) {
@@ -16,15 +19,17 @@ function ScanQRCode({ Nbur, onData }) {
     console.error(error);
   };
 
+ 
+
   return (
     <div>
-      <QrScanner
-        ref={scannerRef}
+      {!scannedData &&<QrScanner
         onScan={(data) => handleScan(data?.text)}
         onError={handleError}
         style={{ width: '15rem', height: 'auto' }}
-      />
-      {scannedData && <p>Scanned Data: {scannedData}</p>}
+      />}
+      {scannedData &&<button onClick={handleReset}>Reset</button>}
+      {scannedData && <p>Code : {scannedData}</p>}
       {scannedData && <FindArt onData={onData} scannedCode={scannedData} Nbur={Nbur} />}
     </div>
   );

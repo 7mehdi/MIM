@@ -4,6 +4,8 @@ import Login from './Components/Login';
 import Home from './Home';
 import Historique from "./Components/Histoique";
 import GestionUsers from './Components/GestionUsers';
+import Dashboard from "./Components/Dashboard";
+
 
 
 function App() {
@@ -61,7 +63,7 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={isLoggedIn ? <Navigate to="/Home" /> : <Login />}
+            element={isLoggedIn ? <Navigate to="/historique" /> : <Login />}
           />
           <Route
             path="/Home"
@@ -74,6 +76,10 @@ function App() {
           <Route
             path="/gestion-utilisateur"
             element={isLoggedIn ? <GestionUsers/>: <Navigate to="/" />}
+          />
+           <Route
+            path="/Dashboard"
+            element={isLoggedIn ? <Dashboard/>: <Navigate to="/" />}
           />
         
         </Routes>

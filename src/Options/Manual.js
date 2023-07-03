@@ -36,12 +36,7 @@ const [btn,setBtn]= useState(false)
 
   return (
     <div className='formulaire'>
-       
- 
-      
-      <h2>Formulaire de l'article</h2>
       <form onSubmit={handleSubmit}>
-   
         <div>  <label>
           Catégorie:
           <select value={category} onChange={handleCategoryChange}>
@@ -63,20 +58,19 @@ const [btn,setBtn]= useState(false)
         </label>
 
         </div>
-        <button type="submit" onClick={handlebtnChange}>Générer le code</button>
-      </form>
-
-
-      {articleNumber && category && btn &&(
+        <button type="button" onClick={handlebtnChange}>Générer le code</button>
+    {articleNumber && category && btn &&(
         <div>
           <h3>Code d'article:</h3>
           <p>{generateCode()}</p>
           <h3>Code QR:</h3>
           <QRCode value={generateCode()} />
-          {item && <FindArt scannedCode={generateCode()} Nbur={Nbur}/>}
         </div>
-      )}
-       
+      )}  </form>
+
+
+      
+        {generateCode && <FindArt scannedCode={generateCode()} Nbur={Nbur}/>}
     </div>
   );
 }
