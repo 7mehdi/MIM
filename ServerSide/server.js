@@ -36,7 +36,7 @@ const generateToken = (user) => {
 const pool = createPool({
   host: 'localhost',
   user: 'root',
-  password: 'Slimane1921/',
+  password: '*********',
   database: 'projet_stage',
 });
 
