@@ -6,7 +6,7 @@ const ExcelJS = require('exceljs');
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'Slimane1921/',
+  password: '*********',
   database: 'projet_stage',
 });
 
