@@ -66,7 +66,7 @@ function retrieveDataAndSendEmail() {
         service: 'Gmail',
         auth: {
           user: 'stock.mim00@gmail.com', // Your Gmail email address
-          pass: 'jtcrawjlkvjdutya', // Your Gmail password or application-specific password
+          pass: '*********', // Your Gmail password or application-specific password
         },
       });
 
