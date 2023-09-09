@@ -19,6 +19,7 @@ function GestionDeStock() {
   };
 
 
+ 
   useEffect(() => {
     fetchItems();
   }, []);
@@ -54,6 +55,7 @@ function GestionDeStock() {
      <tbody>{renderItems()}</tbody>
       </table>
     </div>
+
         </div>
       );
 }

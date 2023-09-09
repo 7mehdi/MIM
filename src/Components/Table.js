@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { fab } from '@fortawesome/free-brands-svg-icons'; // For brand icons
 import { fas } from '@fortawesome/free-solid-svg-icons'; // For solid icons
 import axios from 'axios';
+import "../style/App.css"
 import Item from './Item';
 
 library.add(fab, fas);

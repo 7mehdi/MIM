@@ -319,6 +319,9 @@ align-items: center;
   justify-content: space-between;
   align-items: center;
 }
+.Connecté{
+  color: #027333;
+}
 .Descrip{
   display: flex;
   flex-direction: row;

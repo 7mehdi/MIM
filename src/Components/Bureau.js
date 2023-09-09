@@ -1,5 +1,4 @@
 import React,{useState} from "react";
-import { Link } from "react-router-dom";
 
 import "../style/App.css";
 import Table from "./Table";
@@ -24,7 +23,6 @@ const handleBurChange = (event) => {
   <label for='Bureau'><h4>Numero de bureau:</h4></label>
   <input name="Bureau" type="number" className="BureauInput" value={bur} onChange={handleBurChange} />
   <button className="Confirmbutton" onClick={handleBtnClick}>&#x2713;</button>
-  <button className="Add-article"> <Link className="Add-article" to="/Dashboard">Ajouter un article</Link> </button>
 </section>
 <section className="afficherData">
 {btnClicked && submittedCode &&<Table  Nbur={submittedCode}/>}

@@ -5,7 +5,7 @@ import Home from './Home';
 import Historique from "./Components/Histoique";
 import GestionUsers from './Components/GestionUsers';
 import Dashboard from "./Components/Dashboard";
-
+import Excel from './Components/SendExcel';
 
 
 function App() {
@@ -63,7 +63,7 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={isLoggedIn ? <Navigate to="/historique" /> : <Login />}
+            element={isLoggedIn ? <Navigate to="/Home" /> : <Login />}
           />
           <Route
             path="/Home"
@@ -81,7 +81,10 @@ function App() {
             path="/Dashboard"
             element={isLoggedIn ? <Dashboard/>: <Navigate to="/" />}
           />
-        
+          <Route
+            path="/Excel"
+            element={isLoggedIn ? <Excel/>: <Navigate to="/" />}
+          />
         </Routes>
       </div>
     </Router>

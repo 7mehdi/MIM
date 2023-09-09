@@ -66,7 +66,7 @@ function Login() {
             />
           </div>
 
-          {loginStatus && <p className="login-status">{loginStatus}</p>}
+          {loginStatus && <p className={`${loginStatus} login-status`}>{loginStatus}</p>}
 
           <button className="login-btn" type="submit">
             Se connecter

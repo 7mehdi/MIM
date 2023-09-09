@@ -13,7 +13,7 @@ function Home() {
      
       <NavBar/>
 <div className="Main">
-       <Graph/>
+       {/* <Graph/> */}
       <GestionDeStock/>
       <Bureau/>
 

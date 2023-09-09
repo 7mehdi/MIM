@@ -98,6 +98,22 @@ function NavBar() {
               </li>
               </section>
               <li
+                className="dropdown-item"
+
+              >
+                <Link to="/Dashboard" >
+                 Ajouter un article
+                </Link>
+              
+              </li>
+              <li
+                className="dropdown-item "
+              >
+                 <Link to="/Excel" className="dropdown-link">
+                 Envoyer Excel
+                </Link>
+              </li>
+              <li
                 className="dropdown-item Se-deconnecter"
                 onClick={openLogoutModal}
               >
