@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"  # The command to build your front-end
+  publish = "build"         # The directory where the built files are located
+
+[build.environment]
+  CI = "false"              # Disable treating warnings as errors
+
+[context.production]
+  command = "npm run build"  # Production build command
